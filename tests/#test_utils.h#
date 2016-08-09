@@ -1,0 +1,10 @@
+#ifndef TEST_HEADERS_H
+#define TEST_HEADERS_H
+
+class GumboDOMTest: public testing::Test {
+ protected:
+  void initialize_gumbo_dom_tester() {
+
+  }
+}
+#endif

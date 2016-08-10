@@ -1,0 +1,16 @@
+language: cpp
+compiler:
+  - clang
+  - gcc
+os:
+  - linux
+  - osx
+sudo: required
+before_script:
+  - cd deps/gumbo-parser/
+  - ./autogen.sh
+  - ./configure 
+  - make
+  - sudo make install
+  - cd ../../
+script: make unittests

@@ -50,9 +50,9 @@ GumboDOM::GumboDOM(const char* html_string) {
 }
 
 void GumboDOM::initialize_gumbo_dom() {
-    unordered_map <string, int> m;
-    m["foo"] = 42;
-    cout << m["foo"] << endl;
+    // unordered_map <string, int> m;
+    // m["foo"] = 42;
+    // cout << m["foo"] << endl;
 }
 
 const char* GumboDOM::getString(void) {

@@ -1,7 +1,6 @@
 #ifndef HEADERS_H
 #define HEADERS_H
 
-#include <unordered_map>
 #include <string>
 #include "gumbo.h"
 

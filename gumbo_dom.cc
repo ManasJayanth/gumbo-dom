@@ -17,7 +17,7 @@ void gumbo_traverse(GumboNode *root) {
   case GUMBO_NODE_ELEMENT:
     children = &root->v.element.children;
     for(int i = 0; i < children->length; ++i) {
-      cout << typeid(children->data[i]).name();
+      // cout << typeid(children->data[i]).name();
       // gumbo_traverse(children->data[i]);
     }
     break;
@@ -33,28 +33,27 @@ void gumbo_traverse(GumboNode *root) {
 
 }
 
-// const char* initialize_gumbo_dom(GumboDOM *gumbo_dom, const char* html_string) {
-//   GumboOutput* output = gumbo_parse(html_string);
-//   gumbo_traverse(output->root);
-//   gumbo_destroy_output(&kGumboDefaultOptions, output);
-//   return "Hello";
-// }
+const char* initialize_gumbo_dom(GumboDOM *gumbo_dom, const char* html_string) {
+  GumboOutput* output = gumbo_parse(html_string);
+  gumbo_traverse(output->root);
+  gumbo_destroy_output(&kGumboDefaultOptions, output);
+  return "Hello";
+}
+
+void encode_text_content_html(std::string s, std::string& encoded_string) {
+  encoded_string = s;
+  return;
+}
 
 GumboDOM::GumboDOM() {
-  html = "";
-  initialize_gumbo_dom();
+  html = string("");
+  
 }
 
 GumboDOM::GumboDOM(const char* html_string) {
-    html = html_string;
-}
-
-void GumboDOM::initialize_gumbo_dom() {
-    // unordered_map <string, int> m;
-    // m["foo"] = 42;
-    // cout << m["foo"] << endl;
+  html = html_string;
 }
 
 const char* GumboDOM::getString(void) {
-  return this->html;
+  return this->html.c_str();
 }

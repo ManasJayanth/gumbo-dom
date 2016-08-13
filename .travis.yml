@@ -13,4 +13,4 @@ before_script:
   - make
   - sudo make install
   - cd ../../
-script: make unittests
+script: make unittests && ./unittests

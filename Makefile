@@ -1,7 +1,6 @@
-CXX := g++
 SOURCE_DIR := .
 TESTS_DIR := ./tests
-GUMBO_INCLUDE_FLAGS := `pkg-config --cflags gumbo`
+GUMBO_INCLUDE_FLAGS := `pkg-config --cflags gumbo` -std=c++0x
 GUMBO_LIBRARY_FLAGS := `pkg-config --libs gumbo`
 
 # Points to the root of Google Test, relative to where this file is.
@@ -17,15 +16,15 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 GTESTCPPFLAGS += -isystem $(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
-GTESTCXXFLAGS += -g -Wall -Wextra  -pthread
+GTESTCOMPILERFLAGS += -g -Wall -Wextra  -pthread
 
 # Builds gtest.a and gtest_main.a.
 gtest-all.o : $(GTEST_SRCS_)
-	$(CXX) $(GTESTCPPFLAGS) -I$(GTEST_DIR) $(GTESTCXXFLAGS) -c \
+	$(COMPILER) $(GTESTCPPFLAGS) -I$(GTEST_DIR) $(GTESTCOMPILERFLAGS) -c \
             $(GTEST_DIR)/src/gtest-all.cc
 
 gtest_main.o : $(GTEST_SRCS_)
-	$(CXX) $(GTESTCPPFLAGS) -I$(GTEST_DIR) $(GTESTCXXFLAGS) -c \
+	$(COMPILER) $(GTESTCPPFLAGS) -I$(GTEST_DIR) $(GTESTCOMPILERFLAGS) -c \
             $(GTEST_DIR)/src/gtest_main.cc
 
 gtest.a : gtest-all.o
@@ -41,46 +40,46 @@ clean:
 	rm $(ALL) $(ALL_TESTS)
 
 hw.o : $(SOURCE_DIR)/hw.cc $(SOURCE_DIR)/hw.h
-	$(CXX) $(GTESTCPPFLAGS) -c $(SOURCE_DIR)/hw.cc
+	$(COMPILER) $(GTESTCPPFLAGS) -c $(SOURCE_DIR)/hw.cc
 
 hw_unittests.o : ${TESTS_DIR}/hw_unittests.cc \
                      $(SOURCE_DIR)/hw.h $(GTEST_HEADERS)
-	$(CXX) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/hw_unittests.cc
+	$(COMPILER) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/hw_unittests.cc
 
 
 utils.o: ${SOURCE_DIR}/utils.cc utils.h
-	$(CXX) -I . -c utils.cc
+	$(COMPILER) -I . -c utils.cc  -std=c++0x
 
 utils_unittests.o: ${TESTS_DIR}/utils_unittests.cc  ${SOURCE_DIR}/utils.h
-	$(CXX) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/utils_unittests.cc
+	$(COMPILER) $(GTESTCPPFLAGS) -c -std=c++0x $(TESTS_DIR)/utils_unittests.cc
 
 clean_html.o: ${SOURCE_DIR}/clean_html.cc ${SOURCE_DIR}/headers.h 
-	$(CXX) -I . ${GUMBO_INCLUDE_FLAGS} -c clean_html.cc
+	$(COMPILER) -I . ${GUMBO_INCLUDE_FLAGS} -c clean_html.cc
 
 clean_html_unittests.o: ${TESTS_DIR}/clean_html_unittests.cc ${SOURCE_DIR}/headers.h
-	$(CXX) $(GUMBO_INCLUDE_FLAGS) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/clean_html_unittests.cc
+	$(COMPILER) $(GUMBO_INCLUDE_FLAGS) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/clean_html_unittests.cc
 
 gumbo_dom.o: gumbo_dom.cc gumbo_dom.h
-	$(CXX) -I . ${GUMBO_INCLUDE_FLAGS} -c gumbo_dom.cc
+	$(COMPILER) -I . ${GUMBO_INCLUDE_FLAGS} -c gumbo_dom.cc
 
 gumbo_dom_utils.o: $(SOURCE_DIR)/gumbo_dom_utils.cc $(SOURCE_DIR)/gumbo_dom_utils.h
-	$(CXX) -I .  -c gumbo_dom_utils.cc
+	$(COMPILER) -I . ${GUMBO_INCLUDE_FLAGS} -c gumbo_dom_utils.cc
 
 gumbo_dom_utils_unittests.o: $(TESTS_DIR)/gumbo_dom_utils_unittests.cc
-	$(CXX) $(GUMBO_INCLUDE_FLAGS) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/gumbo_dom_utils_unittests.cc
+	$(COMPILER) $(GUMBO_INCLUDE_FLAGS) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/gumbo_dom_utils_unittests.cc
 
 main.o: main.cc headers.h
-	$(CXX) -I . $(GTESTCPPFLAGS) $(GUMBO_INCLUDE_FLAGS)  -c main.cc
+	$(COMPILER) -I . $(GTESTCPPFLAGS) $(GUMBO_INCLUDE_FLAGS)  -c main.cc
 
 UNITS := hw.o utils.o clean_html.o gumbo_dom_utils.o #clean_html.o gumbo_dom.o
 ALL := ${UNITS} main.o 
 
 all: $(ALL)
-	$(CXX) \
+	$(COMPILER) \
 	$(ALL) \
-	-o parser ${GUMBO_LIBRARY_FLAGS}
+	-o parser ${GUMBO_LIBRARY_FLAGS} -std=c++11
 
 ALL_TESTS = hw_unittests.o utils_unittests.o clean_html_unittests.o gumbo_dom_utils_unittests.o
 unittests : $(UNITS) $(ALL_TESTS) gtest_main.a
-	$(CXX) $(GTESTCPPFLAGS) $(GTESTCXXFLAGS) $(GUMBO_LIBRARY_FLAGS) $^ -o $@
+	$(COMPILER) $(GTESTCPPFLAGS) $(GTESTCOMPILERFLAGS) $(GUMBO_LIBRARY_FLAGS) -std=c++0x $^ -o $@
 

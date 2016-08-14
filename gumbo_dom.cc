@@ -46,8 +46,7 @@ void encode_text_content_html(std::string s, std::string& encoded_string) {
 }
 
 GumboDOM::GumboDOM() {
-  html = string("");
-  
+  html = string("");  
 }
 
 GumboDOM::GumboDOM(const char* html_string) {

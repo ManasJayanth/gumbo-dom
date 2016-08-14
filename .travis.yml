@@ -1,11 +1,69 @@
+sudo: required
+# dist: trusty
 language: cpp
 compiler:
-  - clang
   - gcc
+  - clang
+install:
+- export COMPILER=$CXX
+- if [ "$CXX" = "g++" ]; then export COMPILER="g++-4.9" CC="gcc-4.9"; fi
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.9
+    - g++-4.9
+    - clang
 os:
   - linux
   - osx
-sudo: required
+
+dist: precise
+language: cpp
+
+matrix:
+  exclude:
+    os: linux
+    compiler: clang
+
+# matrix:
+#   include:
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources:
+#             - ubuntu-toolchain-r-test
+#           packages:
+#             - g++-4.9
+#       env: COMPILER=g++-4.9
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources:
+#             - ubuntu-toolchain-r-test
+#           packages:
+#             - g++-5
+#       env: COMPILER=g++-5
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources:
+#             - ubuntu-toolchain-r-test
+#             - llvm-toolchain-precise-3.6
+#           packages:
+#             - clang-3.6
+#       env: COMPILER=clang++-3.6
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources:
+#             - ubuntu-toolchain-r-test
+#             - llvm-toolchain-precise-3.7
+#           packages:
+#             - clang-3.7
+#       env: COMPILER=clang++-3.7
+
 before_script:
   - cd deps/gumbo-parser/
   - ./autogen.sh
@@ -13,4 +71,5 @@ before_script:
   - make
   - sudo make install
   - cd ../../
-script: make unittests
+
+script: make unittests && ./unittests

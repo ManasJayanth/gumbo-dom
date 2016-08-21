@@ -1,6 +1,6 @@
-#ifndef HW_H
-#define HW_H
+#ifndef HW_H_
+#define HW_H_
 
 const char* print_hello();
 
-#endif
+#endif  // HW_H_

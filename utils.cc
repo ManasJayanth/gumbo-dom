@@ -1,20 +1,16 @@
 #include "utils.h"
 
-#include <iostream>
-using namespace std;
-
-const char* utils::read_file(const char* filename, const char* buffer) {
+const char* utils::read_file(const char* filename, char* buffer) {
   std::fstream fin;
   fin.open(filename);
-  fin.read((char*)buffer, PROGRAM_FILE_SIZE_LIMIT);
+  fin.read(reinterpret_cast<char*>(buffer), PROGRAM_FILE_SIZE_LIMIT);
   return buffer;
 }
 
 std::string utils::string_replace_regex(std::string buffer,
                                         std::string pattern,
                                         std::string (*callback)(std::string)) {
-
-  std::regex e (pattern);
+  std::regex e(pattern);
 
   std::string result;
 
@@ -22,7 +18,7 @@ std::string utils::string_replace_regex(std::string buffer,
   const std::sregex_token_iterator end;
 
   int pos;
-  std::string search = buffer; 
+  std::string search = buffer;
   for (std::sregex_token_iterator i(buffer.cbegin(), buffer.cend(), e);
         i != end;
        ++i) {
@@ -34,9 +30,9 @@ std::string utils::string_replace_regex(std::string buffer,
 
      result += replacingSubstring;
      search.erase(0, pos + 1);
-   }
+  }
 
   result += search;
 
   return result;
-};
+}

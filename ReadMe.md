@@ -15,7 +15,4 @@ GumboDOM is dom implementation written in C++ (partial at first) meant to enable
     $ make unittests
 
 ## System requirements
-GumboDOM needs regex and uses posix's `regex.h`.
-
-- POSIX(-2) Regular Expressions (regex.h)
-- A C++98-standard-compliant compiler
+- A C++11-standard-compliant compiler

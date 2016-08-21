@@ -1,5 +1,5 @@
-#ifndef HEADERS_H
-#define HEADERS_H
+#ifndef HEADERS_H_
+#define HEADERS_H_
 #define PROGRAM_FILE_SIZE_LIMIT 1024 * 1024
 
 #include <cstdio>
@@ -8,4 +8,4 @@
 
 const char* clean_html(const char* html);
 
-#endif
+#endif  // HEADERS_H_

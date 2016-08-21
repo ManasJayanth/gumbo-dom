@@ -1,5 +1,5 @@
-#ifndef GUMBO_DOM_UTILS_H
-#define GUMBO_DOM_UTILS_H
+#ifndef GUMBO_DOM_UTILS_H_
+#define GUMBO_DOM_UTILS_H_
 
 #include <string>
 #include <map>
@@ -14,4 +14,4 @@ namespace gumbo_dom_utils {
 
 }
 
-#endif
+#endif  // GUMBO_DOM_UTILS_H_

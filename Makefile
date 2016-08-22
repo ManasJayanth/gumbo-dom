@@ -39,25 +39,12 @@ clean:
 	rm -f $(TESTS) gtest.a gtest_main.a *.o
 	rm $(ALL) $(ALL_TESTS)
 
-hw.o : $(SOURCE_DIR)/hw.cc $(SOURCE_DIR)/hw.h
-	$(COMPILER) $(GTESTCPPFLAGS) -c $(SOURCE_DIR)/hw.cc
-
-hw_unittests.o : ${TESTS_DIR}/hw_unittests.cc \
-                     $(SOURCE_DIR)/hw.h $(GTEST_HEADERS)
-	$(COMPILER) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/hw_unittests.cc
-
 
 utils.o: ${SOURCE_DIR}/utils.cc utils.h
 	$(COMPILER) -I . -c utils.cc  -std=c++0x
 
 utils_unittests.o: ${TESTS_DIR}/utils_unittests.cc  ${SOURCE_DIR}/utils.h
 	$(COMPILER) $(GTESTCPPFLAGS) -c -std=c++0x $(TESTS_DIR)/utils_unittests.cc
-
-clean_html.o: ${SOURCE_DIR}/clean_html.cc ${SOURCE_DIR}/headers.h 
-	$(COMPILER) -I . ${GUMBO_INCLUDE_FLAGS} -c clean_html.cc
-
-clean_html_unittests.o: ${TESTS_DIR}/clean_html_unittests.cc ${SOURCE_DIR}/headers.h
-	$(COMPILER) $(GUMBO_INCLUDE_FLAGS) $(GTESTCPPFLAGS) -c $(TESTS_DIR)/clean_html_unittests.cc
 
 gumbo_dom.o: gumbo_dom.cc gumbo_dom.h
 	$(COMPILER) -I . ${GUMBO_INCLUDE_FLAGS} -c gumbo_dom.cc
@@ -71,7 +58,7 @@ gumbo_dom_utils_unittests.o: $(TESTS_DIR)/gumbo_dom_utils_unittests.cc
 main.o: main.cc headers.h
 	$(COMPILER) -I . $(GTESTCPPFLAGS) $(GUMBO_INCLUDE_FLAGS)  -c main.cc
 
-UNITS := hw.o utils.o clean_html.o gumbo_dom_utils.o #clean_html.o gumbo_dom.o
+UNITS := utils.o gumbo_dom_utils.o # gumbo_dom.o
 ALL := ${UNITS} main.o 
 
 all: $(ALL)
@@ -79,7 +66,7 @@ all: $(ALL)
 	$(ALL) \
 	-o parser ${GUMBO_LIBRARY_FLAGS} -std=c++11
 
-ALL_TESTS = hw_unittests.o utils_unittests.o clean_html_unittests.o gumbo_dom_utils_unittests.o
+ALL_TESTS = utils_unittests.o gumbo_dom_utils_unittests.o
 unittests : $(UNITS) $(ALL_TESTS) gtest_main.a
 	$(COMPILER) $(GTESTCPPFLAGS) $(GTESTCOMPILERFLAGS) $(GUMBO_LIBRARY_FLAGS) -std=c++0x $^ -o $@
 

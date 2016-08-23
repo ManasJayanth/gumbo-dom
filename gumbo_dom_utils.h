@@ -11,6 +11,7 @@ namespace gumbo_dom_utils {
 
   void encode_text_content_html(std::string s, std::string& encoded_string);
   void encode_html(std::string s, std::string& encoded_string);
+  void decode_html(std::string s, std::string& decoded_string);
 
 }
 

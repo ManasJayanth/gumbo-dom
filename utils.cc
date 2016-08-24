@@ -14,7 +14,6 @@ std::string utils::string_replace_regex(std::string buffer,
 
   std::string result;
 
-
   const std::sregex_token_iterator end;
 
   int pos;
@@ -24,12 +23,10 @@ std::string utils::string_replace_regex(std::string buffer,
        ++i) {
      std::string matchStr = *i;
      std::string replacingSubstring = callback(matchStr);
-
      pos = search.find(matchStr);
      result += search.substr(0, pos);
-
      result += replacingSubstring;
-     search.erase(0, pos + 1);
+     search.erase(0, pos + matchStr.length());
   }
 
   result += search;

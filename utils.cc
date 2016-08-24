@@ -25,7 +25,6 @@ std::string utils::string_replace_regex(std::string buffer,
      std::string replacingSubstring = callback(matchStr);
      pos = search.find(matchStr);
      result += search.substr(0, pos);
-
      result += replacingSubstring;
      search.erase(0, pos + matchStr.length());
   }
